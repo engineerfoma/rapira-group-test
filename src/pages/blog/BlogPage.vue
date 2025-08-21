@@ -4,10 +4,10 @@
             :filters="filters"
             :search-query="searchQuery"
             :is-filters-open="isFiltersOpen"
-            @update:filters="filters = $event"
+            @update:filters="updateFilters"
             @update:search-query="searchQuery = $event"
             @update:is-filters-open="isFiltersOpen = $event"
-            @clear-all="handleClearAll"
+            @clear-all="clearAllFilters"
         />
     </div>
 </template>
@@ -18,15 +18,21 @@ import BlogFilters from '@/components/BlogFilters/BlogFilters.vue';
 import type { BlogFilter } from '@/types/blog';
 
 const filters = ref<BlogFilter[]>([
-    { id: '1', label: 'Дизайн', isSelected: false },
-    { id: '2', label: 'Разработка', isSelected: false },
-    { id: '3', label: 'Маркетинг', isSelected: false },
+    { id: 'design', label: 'Дизайн', isSelected: false },
+    { id: 'development', label: 'Разработка', isSelected: false },
+    { id: 'marketing', label: 'Маркетинг', isSelected: false },
+    { id: 'city', label: 'Город', isSelected: false },
+    { id: 'nature', label: 'Природа', isSelected: false },
 ]);
 
 const searchQuery = ref('');
 const isFiltersOpen = ref(false);
 
-const handleClearAll = () => {
+const updateFilters = (newFilters: BlogFilter[]) => {
+    filters.value = newFilters;
+};
+
+const clearAllFilters = () => {
     filters.value = filters.value.map(f => ({ ...f, isSelected: false }));
     searchQuery.value = '';
     isFiltersOpen.value = false;

@@ -6,32 +6,45 @@ export function useBlogFilters(initialFilters: BlogFilter[] = []) {
     const searchQuery = ref('');
     const isFiltersOpen = ref(false);
 
+    const selectedFilters = computed(() =>
+        filters.value.filter(filter => filter.isSelected)
+    );
+
+    const selectedFiltersCount = computed(() =>
+        selectedFilters.value.length
+    );
+
+    const hasActiveFilters = computed(() =>
+        searchQuery.value !== '' || selectedFiltersCount.value > 0
+    );
+
     const toggleFilter = (filterId: string) => {
-        filters.value = filters.value.map(filter =>
+        const updatedFilters = filters.value.map(filter =>
             filter.id === filterId
                 ? { ...filter, isSelected: !filter.isSelected }
                 : filter
         );
+        return updatedFilters;
     };
 
     const clearAll = () => {
-        filters.value = filters.value.map(filter => ({
+        const clearedFilters = filters.value.map(filter => ({
             ...filter,
             isSelected: false
         }));
         searchQuery.value = '';
+        isFiltersOpen.value = false;
+        return clearedFilters;
     };
-
-    const selectedFiltersCount = computed(() =>
-        filters.value.filter(filter => filter.isSelected).length
-    );
 
     return {
         filters,
         searchQuery,
         isFiltersOpen,
+        selectedFilters,
+        selectedFiltersCount,
+        hasActiveFilters,
         toggleFilter,
-        clearAll,
-        selectedFiltersCount
+        clearAll
     };
 }

@@ -1,6 +1,7 @@
 import { fileURLToPath, URL } from 'node:url';
 
 import { defineConfig } from 'vite';
+import { resolve } from 'path';
 import vue from '@vitejs/plugin-vue';
 import vueDevTools from 'vite-plugin-vue-devtools';
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
@@ -12,8 +13,7 @@ export default defineConfig({
         vue(),
         vueDevTools(),
         VueI18nPlugin({
-            runtimeOnly: false,
-            compositionOnly: true,
+            include: resolve(__dirname, './src/locales/**'),
         }),
     ],
     resolve: {

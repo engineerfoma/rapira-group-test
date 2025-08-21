@@ -1,24 +1,49 @@
 <template>
-    <div class="relative">
+    <div class="relative w-full">
         <input
             :value="modelValue"
-            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2884EF] focus:border-transparent"
+            class="w-full pl-10 pr-4 py-2 bg-[var(--gray-100)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2884EF] focus:border-transparent placeholder-[var(--gray-400)] md:max-w-[400px]"
             placeholder="Поиск"
             type="text"
-            @input="$emit('update:modelValue', $event.target.value)"
+            @input="handleInput"
         >
-        <SearchIcon class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+        <img
+            :src="SearchIcon"
+            class="absolute left-3 top-1/2 transform -translate-y-1/2 w-[14px] h-[14px] text-[var(--gray-500)]"
+        >
     </div>
 </template>
 
 <script setup lang="ts">
-import SearchIcon from '@/assets/icons/search.svg?component';
+import { ref, watch } from 'vue';
+import SearchIcon from '@/shared/assets/icons/icon-magnifier.svg';
 
-defineProps<{
+const props = defineProps<{
   modelValue: string;
+  debounce?: number;
 }>();
 
-defineEmits<{
+const emit = defineEmits<{
   'update:modelValue': [value: string];
 }>();
+
+const inputValue = ref(props.modelValue);
+let timeoutId: number | null = null;
+
+const handleInput = (event: Event) => {
+    const value = (event.target as HTMLInputElement).value;
+    inputValue.value = value;
+
+    if (timeoutId) {
+        clearTimeout(timeoutId);
+    }
+
+    timeoutId = setTimeout(() => {
+        emit('update:modelValue', value);
+    }, props.debounce || 300) as unknown as number;
+};
+
+watch(() => props.modelValue, (newValue) => {
+    inputValue.value = newValue;
+});
 </script>

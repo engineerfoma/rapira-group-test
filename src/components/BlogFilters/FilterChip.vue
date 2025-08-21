@@ -1,25 +1,26 @@
 <template>
     <button
-        class="inline-flex items-center gap-1.5 rounded-full transition-colors duration-200"
+        class="inline-flex items-center gap-1.5 transition-colors duration-200"
         :class="chipClasses"
         @click="$emit('toggle')"
     >
-        <span class="text-sm font-medium leading-none tracking-normal">
+        <span class="text-sm font-medium leading-none tracking-normal whitespace-nowrap">
             {{ label }}
         </span>
-        <component
-            :is="iconComponent"
-            class="w-3 h-3"
-        />
+        <img
+            :src="isSelected ? CheckIcon : PlusIcon"
+            class="w-4 h-4 flex-shrink-0"
+            alt="icon"
+        >
     </button>
 </template>
 
 <script setup lang="ts">
+import PlusIcon from '@/shared/assets/icons/icon-plus.svg';
+import CheckIcon from '@/shared/assets/icons/icon-check.svg';
 import { computed } from 'vue';
-import PlusIcon from '@/assets/icons/plus.svg?component';
-import CheckIcon from '@/assets/icons/check.svg?component';
 
-defineProps<{
+const props = defineProps<{
   label: string;
   isSelected: boolean;
 }>();
@@ -29,11 +30,9 @@ defineEmits<{
 }>();
 
 const chipClasses = computed(() => ({
-    'bg-[#EEF6FF] text-[#2884EF]': !isSelected,
-    'bg-[#3E97FF] text-white': isSelected,
+    'bg-[#EEF6FF] text-[#2884EF]': !props.isSelected,
+    'bg-[#3E97FF] text-white': props.isSelected,
+    'py-1.5 px-3.5 rounded-full': true,
+    'md:py-2': true
 }));
-
-const iconComponent = computed(() =>
-    isSelected ? CheckIcon : PlusIcon
-);
 </script>

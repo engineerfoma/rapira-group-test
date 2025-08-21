@@ -14,7 +14,7 @@ router.afterEach(close);
 <template>
     <header class="sticky top-0 z-50 bg-black shadow-md">
         <!-- Десктоп -->
-        <nav class="hidden md:flex items-center justify-between py-[15px] px-[56px]">
+        <nav class="hidden md:flex items-center justify-between py-[15px] px-[56px] max-w-[1288px] mx-auto">
             <div class="flex items-center gap-[80px]">
                 <router-link
                     to="/"

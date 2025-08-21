@@ -9,6 +9,9 @@
     --white-color: #fff;
     --primary-blue-color: #2884EF;
     --accent-blue-color: #3E97FF;
+    --gray-500: #A1A5B7;
+    --gray-400: #D8D8E5;
+    --gray-100: #F9F9F9;
 }
 
 body {
@@ -17,12 +20,19 @@ body {
 
 .font-gilroy {
     font-family: 'Gilroy', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 24px;
+    letter-spacing: 0%;
+
+    @media (min-width: 800px) {
+        font-size: 32px;
+    }
 }
 
 @layer components {
     .default-layout {
-        @apply grid min-h-screen gap-x-5 items-start;
-        grid-template-columns: minmax(0, 100vw);
+        @apply flex flex-col min-h-screen gap-x-5;
         background-color: var(--gray-color);
     }
 
