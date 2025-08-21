@@ -1,0 +1,44 @@
+@font-face {
+    font-family: 'Inter';
+    src: url('/src/shared/assets/fonts/Inter-Bold.woff2') format('woff2'),
+        url('/src/shared/assets/fonts/Inter-Bold.woff') format('woff'),
+        url('/src/shared/assets/fonts/Inter-Bold.otf') format('opentype'),
+        url('/src/shared/assets/fonts/Inter-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+000-5FF;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('/src/shared/assets/fonts/Inter-SemiBold.woff2') format('woff2'),
+        url('/src/shared/assets/fonts/Inter-SemiBold.woff') format('woff'),
+        url('/src/shared/assets/fonts/Inter-SemiBold.otf') format('opentype'),
+        url('/src/shared/assets/fonts/Inter-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+000-5FF;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('/src/shared/assets/fonts/Inter-Medium.woff2') format('woff2'),
+        url('/src/shared/assets/fonts/Inter-Medium.woff') format('woff'),
+        url('/src/shared/assets/fonts/Inter-Medium.otf') format('opentype'),
+        url('/src/shared/assets/fonts/Inter-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+000-5FF;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/src/shared/assets/fonts/Gilroy-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+000-5FF;
+}
