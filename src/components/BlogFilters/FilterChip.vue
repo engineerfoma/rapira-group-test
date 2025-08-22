@@ -21,18 +21,17 @@ import CheckIcon from '@/shared/assets/icons/icon-check.svg';
 import { computed } from 'vue';
 
 const props = defineProps<{
-  label: string;
-  isSelected: boolean;
+    label: string;
+    isSelected: boolean;
 }>();
 
 defineEmits<{
-  toggle: [];
+    toggle: [];
 }>();
 
 const chipClasses = computed(() => ({
     'bg-[#EEF6FF] text-[#2884EF]': !props.isSelected,
     'bg-[#3E97FF] text-white': props.isSelected,
-    'py-1.5 px-3.5 rounded-full': true,
-    'md:py-2': true
+    'py-1.5 px-3.5 rounded-full md:py-2': true,
 }));
 </script>

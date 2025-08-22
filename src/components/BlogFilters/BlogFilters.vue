@@ -4,12 +4,12 @@
     >
         <div :class="['max-w-[1210px] mx-auto flex flex-col md:flex-row md:items-center md:justify-between md:gap-4', $style.container]">
             <div class="order-1 flex justify-between items-center md:contents">
-                <h2 class="font-gilroy md:order-1">
+                <h2 class="font-gilroy md:order-1 mr-[35px]">
                     {{ $t('blog.title') }}
                 </h2>
                 <div class="order-2 md:order-3 flex gap-[10px]">
                     <clear-button
-                        v-if="true"
+                        v-if="hasActiveFilters"
                         @click="$emit('clearAll')"
                     />
                     <filter-button
@@ -46,10 +46,12 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import ClearButton from '@/shared/ui/ClearButton.vue';
-import FilterButton from '@/shared/ui/FilterButton.vue';
-import SearchInput from '@/shared/ui/SearchInput.vue';
-import FilterChip from '@/components/BlogFilters/FilterChip.vue';
+import {
+    ClearButton,
+    FilterButton,
+    SearchInput,
+} from '@/shared/ui/';
+import FilterChip from './FilterChip.vue';
 import type { BlogFiltersEmits, BlogFiltersProps } from '@/types/blog';
 
 const props = defineProps<BlogFiltersProps>();

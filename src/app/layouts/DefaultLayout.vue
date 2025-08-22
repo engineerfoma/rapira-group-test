@@ -1,7 +1,3 @@
-<script lang="ts" setup>
-import { HeaderContent } from '@/shared/ui';
-</script>
-
 <template>
     <div class=" default-layout">
         <header-content />
@@ -10,6 +6,10 @@ import { HeaderContent } from '@/shared/ui';
         </main>
     </div>
 </template>
+
+<script lang="ts" setup>
+import { HeaderContent } from '@/shared/ui';
+</script>
 
 <style lang="scss" module>
 </style>
