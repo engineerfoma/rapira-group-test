@@ -21,6 +21,7 @@ export interface BlogPost {
   id: string;
   title: string;
   description: string;
+  text: string;
   image: string;
   date: string;
   readTime: string;
@@ -31,7 +32,7 @@ export interface BlogPost {
 export interface Comment {
   id: string;
   author: string;
-  avatar: string;
+  avatar: string | null;
   text: string;
   date: string;
 }

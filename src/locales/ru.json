@@ -1,9 +1,16 @@
 {   
-      "blog": {
+    "blog": {
         "title": "Блог"
     },
       "buttons": {
         "clear": "Очистить",
         "filter": "Фильтр"
+    },
+    "modal": {
+        "comments": "Комментариев",
+        "noComents": "Пока нет комментариев",
+        "enterAComment": "Введите комментарий",
+        "cancel": "Отмена",
+        "publish": "Опубликовать"
     }
 }

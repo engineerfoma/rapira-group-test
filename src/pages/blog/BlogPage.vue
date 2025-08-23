@@ -12,36 +12,45 @@
         :posts="blogPosts"
         @open-modal="openPostModal"
     />
-<!--
-    <blog-post-modal
-        v-if="selectedPost"
+    <blog-card-modal
+        :is-open="isOpen"
         :post="selectedPost"
-        @close="selectedPost = null"
-        @add-comment="addCommentToPost"
-    /> -->
+        @close="closeModal"
+        @add-comment="handleAddComment"
+    />
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { BlogFilters, BlogCardList } from '@/components';
-import type { BlogFilter, BlogPost } from '@/types/blog';
-import { mockBlogPosts } from '@/mocks/BlogPost';
+import { BlogFilters, BlogCardList, BlogCardModal } from '@/components';
+import type { BlogFilter, BlogPost, Comment } from '@/types/blog';
+import { mockBlogPosts } from '@/mocks/BlogPosts';
+import { INIT_BLOG_ITEM } from '@/constants';
 
 const filters = ref<BlogFilter[]>([
     { id: 'design', label: 'Дизайн', isSelected: false },
     { id: 'development', label: 'Разработка', isSelected: false },
-    { id: 'marketing', label: 'Маркетинг', isSelected: false },
-    { id: 'city', label: 'Город', isSelected: false },
+    { id: 'art', label: 'Искусство', isSelected: false },
+    { id: 'people', label: 'Люди', isSelected: false },
     { id: 'nature', label: 'Природа', isSelected: false },
+    { id: 'animals', label: 'Животные', isSelected: false },
+    { id: 'food', label: 'Еда', isSelected: false },
 ]);
 
+const isOpen = ref<boolean>(false);
 const blogPosts = ref(mockBlogPosts);
-const selectedPost = ref<BlogPost | null>(null);
+const selectedPost = ref<BlogPost>(INIT_BLOG_ITEM);
 const searchQuery = ref('');
 const isFiltersOpen = ref(false);
 
 const openPostModal = (post: BlogPost) => {
+    isOpen.value = true;
     selectedPost.value = post;
+};
+
+const closeModal = () => {
+    isOpen.value = false;
+    selectedPost.value = INIT_BLOG_ITEM;
 };
 
 const updateFilters = (newFilters: BlogFilter[]) => {
@@ -54,13 +63,13 @@ const clearAllFilters = () => {
     isFiltersOpen.value = false;
 };
 
-// const addCommentToPost = (comment: Omit<Comment, 'id'>) => {
-//     if (selectedPost.value) {
-//         const newComment = {
-//             ...comment,
-//             id: Date.now().toString()
-//         };
-//         selectedPost.value.comments.push(newComment);
-//     }
-// };
+const handleAddComment = (payload: {postId: string, comment: Omit<Comment, 'id'>}) => {
+    if (selectedPost.value) {
+        const newComment = {
+            ...payload.comment,
+            id: payload.postId
+        };
+        selectedPost.value.comments.push(newComment);
+    }
+};
 </script>

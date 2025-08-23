@@ -1,3 +1,4 @@
+export { default as BaseModal } from './BaseModal.vue';
 export { default as ChipItem } from './ChipItem.vue';
 export { default as ClearButton } from './ClearButton.vue';
 export { default as CustomIcon } from './CustomIcon.vue';
@@ -5,3 +6,4 @@ export { default as FilterButton } from './FilterButton.vue';
 export { default as HeaderContent } from './HeaderContent.vue';
 export { default as MetaInfo } from './MetaInfo.vue';
 export { default as SearchInput } from './SearchInput.vue';
+export { default as TextareaExpander } from './TextareaExpander.vue';
