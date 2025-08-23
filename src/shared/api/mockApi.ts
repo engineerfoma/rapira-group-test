@@ -6,7 +6,7 @@ const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 export const mockApi = {
     // Получить все посты
     async getPosts(): Promise<BlogPost[]> {
-        await delay(300);
+        await delay(700);
         return JSON.parse(JSON.stringify(mockBlogPosts));
     },
 

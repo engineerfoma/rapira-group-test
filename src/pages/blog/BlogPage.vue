@@ -9,7 +9,9 @@
         @clear-all="clearAllFilters"
     />
     <blog-card-list
-        :posts="blogPosts"
+        :posts="posts"
+        :error="postError"
+        :loading="postLoading"
         @open-modal="openPostModal"
     />
     <blog-card-modal
@@ -21,11 +23,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { BlogFilters, BlogCardList, BlogCardModal } from '@/components';
 import type { BlogFilter, BlogPost, Comment } from '@/types/blog';
-import { mockBlogPosts } from '@/mocks/BlogPosts';
 import { INIT_BLOG_ITEM } from '@/constants';
+import { useBlogPosts } from '@/composables/useBlogPosts';
 
 const filters = ref<BlogFilter[]>([
     { id: 'design', label: 'Дизайн', isSelected: false },
@@ -38,10 +40,11 @@ const filters = ref<BlogFilter[]>([
 ]);
 
 const isOpen = ref<boolean>(false);
-const blogPosts = ref(mockBlogPosts);
 const selectedPost = ref<BlogPost>(INIT_BLOG_ITEM);
 const searchQuery = ref('');
 const isFiltersOpen = ref(false);
+
+const { loading: postLoading, error: postError, posts, fetchPosts } = useBlogPosts();
 
 const openPostModal = (post: BlogPost) => {
     isOpen.value = true;
@@ -50,7 +53,6 @@ const openPostModal = (post: BlogPost) => {
 
 const closeModal = () => {
     isOpen.value = false;
-    selectedPost.value = INIT_BLOG_ITEM;
 };
 
 const updateFilters = (newFilters: BlogFilter[]) => {
@@ -72,4 +74,8 @@ const handleAddComment = (payload: {postId: string, comment: Omit<Comment, 'id'>
         selectedPost.value.comments.push(newComment);
     }
 };
+
+onMounted(() => {
+    fetchPosts();
+});
 </script>

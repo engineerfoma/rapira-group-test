@@ -1,4 +1,5 @@
 export { default as BaseModal } from './BaseModal.vue';
+export { default as BaseLoading } from './BaseLoading.vue';
 export { default as ChipItem } from './ChipItem.vue';
 export { default as ClearButton } from './ClearButton.vue';
 export { default as CustomIcon } from './CustomIcon.vue';

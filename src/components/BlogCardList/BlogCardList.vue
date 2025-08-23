@@ -1,5 +1,7 @@
 <template>
+    <base-loading v-if="loading" />
     <div
+        v-else
         :class="gridClasses"
     >
         <blog-card-item
@@ -15,13 +17,16 @@
 import { computed } from 'vue';
 import BlogCardItem from './BlogCardItem.vue';
 import type { BlogPost } from '@/types/blog';
+import { BaseLoading } from '@/shared/ui';
 
 defineProps<{
-posts: BlogPost[];
+    posts: BlogPost[];
+    error: string | null;
+    loading: boolean;
 }>();
 
 const emit = defineEmits<{
-(e: 'openModal', post: BlogPost): void;
+    (e: 'openModal', post: BlogPost): void;
 }>();
 
 const gridClasses = computed(() => ([

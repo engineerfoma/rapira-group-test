@@ -70,7 +70,7 @@ export const mockBlogPosts: BlogPost[] = [
             {
                 id: '1',
                 author: 'Сергей Иванов',
-                avatar: '/public/images/unknown.png',
+                avatar: '/public/images/unknown.webp',
                 text: 'Какой-то комментарий',
                 date: '2025-06-29T09:30:25.123Z',
             }
