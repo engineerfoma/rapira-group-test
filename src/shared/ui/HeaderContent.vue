@@ -1,16 +1,3 @@
-<script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router';
-import { NAVIGATION } from '@/constants';
-import { useMobileMenu } from '@/composables';
-
-const router = useRouter();
-const route = useRoute();
-
-const { isOpen, toggle, close } = useMobileMenu();
-
-router.afterEach(close);
-</script>
-
 <template>
     <header class="sticky top-0 z-50 bg-black shadow-md">
         <!-- Десктоп -->
@@ -121,6 +108,17 @@ router.afterEach(close);
         </div>
     </header>
 </template>
+<script setup lang="ts">
+import { useRoute, useRouter } from 'vue-router';
+import { NAVIGATION } from '@/constants';
+import { useMobileMenu } from '@/composables';
+
+const router = useRouter();
+const route = useRoute();
+
+const { isOpen, toggle, close } = useMobileMenu();
+if (router) router.afterEach(close);
+</script>
 <style scoped>
 .active-link {
     color: var(--accent-blue-color);

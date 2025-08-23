@@ -23,5 +23,15 @@ export default defineConfig({
     },
     css: {
         postcss: './postcss.config.js'
+    },
+    test: {
+        globals: true,
+        environment: 'jsdom',
+        coverage: {
+            provider: 'v8',
+            reporter: ['text', 'json', 'html'],
+            include: ['src/**/*.{vue,ts}'],
+            exclude: ['node_modules/', 'src/mocks/']
+        }
     }
 });
