@@ -12,25 +12,19 @@
         </div>
 
         <div class="blog-card__meta flex items-center gap-1 mt-2.5">
-            <span class="blog-card__meta-item">{{ shortDate(post.date) }}</span>
-            <span class="blog-card__meta-separator mx-2.5">•</span>
-            <span class="blog-card__meta-item">
-                <img
-                    :src="IconClock"
-                    alt="clock"
-                >
-                {{ post.readTime }} мин
-            </span>
-            <span class="blog-card__meta-separator mx-2.5">•</span>
-            <span class="blog-card__meta-item">
-                <img
-                    :src="IconComments"
-                    alt="comment"
-                >
-                {{ commentText(post.comments.length) }}
-            </span>
+            <MetaInfo :text="shortDate(post.date)" />
+            <MetaInfo
+                :text="`${post.readTime} мин`"
+                :icon="IconClock"
+                alt-text="Время чтения"
+            />
+            <MetaInfo
+                :text="commentText(post.comments.length)"
+                :icon="IconComments"
+                alt-text="Комментарии"
+                :show-separator="false"
+            />
         </div>
-
         <h3 class="blog-card__title mt-2.5">
             {{ post.title }}
         </h3>
@@ -54,10 +48,18 @@
 <script setup lang="ts">
 import IconComments from '@/shared/assets/icons/icon-comments.svg';
 import IconClock from '@/shared/assets/icons/icon-clock.svg';
-import type { BlogCardProps, BlogCardEmits } from '@/types/blog';
-import { shortDate } from '@/utils/formatDate';
-import { pluralize } from '@/utils/pluralize';
-import ChipItem from './ChipItem.vue';
+import type { BlogPost } from '@/types/blog';
+import { shortDate, pluralize } from '@/utils';
+import { ChipItem, MetaInfo } from '@/shared/ui';
+
+export interface BlogCardProps {
+    post: BlogPost;
+}
+
+export interface BlogCardEmits {
+    (e: 'click', post: BlogPost): void;
+    (e: 'addComment', payload: { postId: string; comment: Omit<Comment, 'id'> }): void;
+}
 
 defineProps<BlogCardProps>();
 defineEmits<BlogCardEmits>();
@@ -74,25 +76,6 @@ const commentText = (count: number) => {
 <style scoped lang="scss">
 .blog-card {
     width: 100%;
-
-    &__meta {
-        &-item {
-            font-family: 'Inter', sans-serif;
-            font-weight: 500;
-            font-size: 14px;
-            line-height: 14px;
-            letter-spacing: 0%;
-            vertical-align: middle;
-            color: #6B7280;
-            display: flex;
-            gap: 4px;
-        }
-
-        &-separator {
-            color: #6B7280;
-            font-size: 14px;
-        }
-    }
 
     &__title {
         font-family: 'Inter', sans-serif;

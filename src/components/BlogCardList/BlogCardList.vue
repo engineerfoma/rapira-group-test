@@ -2,7 +2,7 @@
     <div
         :class="gridClasses"
     >
-        <card-item
+        <blog-card-item
             v-for="post in posts"
             :key="post.id"
             :post="post"
@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { CardItem } from '@/shared/ui';
+import BlogCardItem from './BlogCardItem.vue';
 import type { BlogPost } from '@/types/blog';
 
 defineProps<{

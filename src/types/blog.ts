@@ -35,14 +35,3 @@ export interface Comment {
   text: string;
   date: string;
 }
-
-export interface BlogCardProps {
-  post: BlogPost;
-}
-
-
-export interface BlogCardEmits {
-  (e: 'click', post: BlogPost): void;
-  (e: 'addComment', payload: { postId: string; comment: Omit<Comment, 'id'> }): void;
-}
-

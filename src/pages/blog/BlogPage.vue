@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { BlogFilters, BlogCardList } from '@/components/BlogFilters';
+import { BlogFilters, BlogCardList } from '@/components';
 import type { BlogFilter, BlogPost } from '@/types/blog';
 import { mockBlogPosts } from '@/mocks/BlogPost';
 
