@@ -36,17 +36,17 @@
 
 ```bash
 # Клонирование репозитория
-git clone https://github.com/your-username/gallery-app.git
-cd gallery-app
+git clone https://github.com/engineerfoma/rapira-group-test.git
+cd rapira-group-test
 
 # Установка зависимостей
-npm install
+pnpm install
 
 # Запуск в development режиме
-npm run dev
+pnpm run dev
 
 # Сборка для production
-npm run build
+pnpm run build
 
 # Превью сборки
 npm run preview
@@ -56,31 +56,67 @@ npm run preview
 
 ```
 src/
+├── app/
+│   ├── layouts/
+│   │   └── DefaultLayout.vue  # Дефолтный layout проекта
+│   ├── router/ 
+│   │   └── index.ts           # Настройки vue-router
+│   │── main.ts
+│   └── App.vue
 ├── components/
-│   ├── UI/
-│   │   ├── AppButton.vue      # Переиспользуемая кнопка
-│   │   ├── AppModal.vue       # Модальное окно
-│   │   └── AppSearch.vue      # Компонент поиска
-│   ├── Gallery/
-│   │   ├── GalleryGrid.vue    # Сетка изображений
-│   │   ├── GalleryFilter.vue  # Фильтры по категориям
-│   │   └── GalleryCard.vue    # Карточка изображения
-│   └── Layout/
-│       ├── Header.vue         # Шапка с поиском
-│       └── Footer.vue         # Подвал
+│   ├── BlogCardList/
+│   │   ├── BlogCardItem.vue       # Карточка галереи
+│   │   ├── BlogCardList.vue       # Сетка карточек галереи
+│   │   ├── BlogCardModal.vue      # Модалка для карточки
+│   │   └── index.ts               # exports
+│   ├── BlogFilters/
+│   │   ├── BlogFilters.vue        # Обёртка над фильтром и поиском
+│   │   ├── FilterChip.vue         # Категории
+│   │   └── index.ts               # exports
+│   └── index.ts                   # exports
 ├── composables/
-│   ├── useGallery.ts          # Логика галереи
-│   ├── useFilter.ts           # Логика фильтрации
-│   └── useSearch.ts           # Логика поиска
+│   ├── useBlogPosts.ts            # Логика получения постов (фильтрация, поиск)
+│   ├── useMobileMenu.ts           # Логика бургер меню
+│   ├── useUrlParams.ts            # Логика синхронизации url с поиском и фильтрацией
+│   └── index.ts                   # exports
+├── constants/
+│   ├── blog.ts                    # Начальное состояние выбранной карточки
+│   ├── navigation.ts              # Элементы навигации
+│   └── index.ts                   # exports
+├── locales/
+│   └── ru.json                    # Локализация
+├── mocks/
+│   └── blogPosts.ts               # Моковые данные постов
+├── pages/
+│   ├── blog/
+│   │   ├── BlogPage.vue           # Страница галереи
+│   │   └── index.ts               # Данные для роута
+│   └── home/
+│       ├── HomePage.vue           # Главная страница
+│       └── index.ts               # Данные для роута
+├── shared/
+│   ├── assets/
+│   │   ├── fonts                  # Шрифты
+│   │   ├── icons                  # svg
+│   │   └── styles                 # Стили
+│   ├── ui/
+│   │   ├── BaseLoading.vue        # Лоадер
+│   │   ├── BaseModal.vue          # Модалка
+│   │   ├── ChipItem.vue           # Категория
+│   │   ├── ClearButton.vue        # Кнопка очистки
+│   │   ├── FilterButton.vue       # Кнопка приминения фильтров
+│   │   ├── HeaderContent.vue      # Шапка сайта
+│   │   ├── MetaInfo.vue           # Свойства карточки
+│   │   ├── NotFound.vue           # Заглушка поиска
+│   │   ├── SearchInput.vue        # Поиск
+│   │   ├── TextareaExpander.vue   # Инпут комментария
+│   │   └── index.ts               # exports
+│   └── lib/
+│       └── vue-router               
+│           └── index.ts           # Ключи для роутера
 ├── types/
-│   └── index.ts               # TypeScript интерфейсы
-├── assets/
-│   ├── images/                # Статические изображения
-│   └── styles/
-│       ├── main.scss          # Глобальные стили
-│       └── variables.scss     # SCSS переменные
-├── App.vue
-└── main.ts
+│   └── blog.ts                    # TypeScript интерфейсы
+└──  utils/                        # Утилиты
 ```
 
 ## 🎨 Работа с дизайном
@@ -92,143 +128,31 @@ src/
 
 ### Адаптивность
 - Mobile-first дизайн
-- Breakpoints: 320px, 768px, 1024px, 1280px
+- Breakpoints: 375px, 800px, 1400px
 - Гибкая сетка изображений
-
-## 📝 TypeScript реализация
-
-```typescript
-// Пример типизации
-export interface ImageItem {
-  id: number
-  title: string
-  description: string
-  category: ImageCategory
-  imageUrl: string
-  details: ImageDetails
-}
-
-export type ImageCategory = 'nature' | 'cities' | 'people' | 'all'
-
-export interface ImageDetails {
-  author: string
-  createdAt: string
-  location: string
-  resolution: string
-}
-```
-
-## 🔧 Настройка Tailwind + SASS
-
-### tailwind.config.js
-```javascript
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{vue,js,ts,jsx,tsx}",
-  ],
-  theme: {
-    extend: {
-      colors: {
-        // Кастомные цвета из Figma
-        primary: '#3B82F6',
-        secondary: '#64748B',
-        accent: '#F59E0B',
-      },
-      fontFamily: {
-        // Шрифты из макета
-        sans: ['Inter', 'sans-serif'],
-      },
-    },
-  },
-  plugins: [],
-}
-```
-
-### Глобальные стили
-```scss
-// variables.scss
-$breakpoints: (
-  'mobile': 320px,
-  'tablet': 768px,
-  'desktop': 1024px,
-  'large': 1280px
-);
-
-// main.scss
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-@import './variables';
-
-// Кастомные стили
-```
-
-## ⚡ Производительность
-
-- Ленивая загрузка изображений
-- Debounce для поиска (300ms)
-- Memoization вычисляемых свойств
-- Оптимизированный bundle size
 
 ## 🧪 Тестирование
 
 ```bash
 # Запуск тестов
-npm run test:unit
-
-# Запуск тестов с покрытием
-npm run test:coverage
+pnpm run test:unit
 ```
-
-Пример теста компонента:
-```typescript
-import { describe, it, expect } from 'vitest'
-import { mount } from '@vue/test-utils'
-import GalleryCard from '@/components/Gallery/GalleryCard.vue'
-
-describe('GalleryCard', () => {
-  it('renders image data correctly', () => {
-    const wrapper = mount(GalleryCard, {
-      props: {
-        image: {
-          id: 1,
-          title: 'Test Image',
-          description: 'Test description',
-          category: 'nature',
-          imageUrl: '/test.jpg'
-        }
-      }
-    })
-    
-    expect(wrapper.text()).toContain('Test Image')
-  })
-})
-```
-
-## 🚀 Деплой
-
-Приложение развернуто на:
-- **Vercel** (преференциальный выбор)
-- Netlify
-- GitHub Pages
 
 ```bash
 # Сборка для production
 npm run build
 
-# Файлы для деплоя в dist/
 ```
 
 ## ⏱️ Затраченное время
 
 - Анализ ТЗ и макета: 2 часа
-- Настройка окружения: 1 час
+- Настройка окружения: 3 час
 - Разработка компонентов: 8 часов
+- Разработка бизнес логики: 10 часов
 - Стилизация и адаптив: 6 часов
-- Тестирование и деплой: 2 часа
-- **Итого: ~19 часов**
+- Тестирование: 2 часа
+- **Итого: ~31 часов**
 
 ## 🔮 Возможные улучшения
 
@@ -237,11 +161,13 @@ npm run build
 - [ ] PWA-функциональность
 - [ ] Оффлайн-режим
 - [ ] Темная тема
+- [ ] Мультиязычность
+- [ ] Авторизация
 - [ ] Оптимизация SEO
 
 ## 📞 Контакты
 
-[Ваше Имя] | [Email] | [Telegram] | [LinkedIn]
+[Фоменко Николай] | [fomen_94@bk.ru] | [@fomenko_nick]
 
 ---
 
