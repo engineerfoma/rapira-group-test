@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
 import { NAVIGATION } from '@/constants';
-import { useMobileMenu } from '@/composables/useMobileMenu';
+import { useMobileMenu } from '@/composables';
 
 const router = useRouter();
 const route = useRoute();

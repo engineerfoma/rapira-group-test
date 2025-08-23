@@ -1,5 +1,5 @@
 <template>
-    <BaseModal
+    <base-modal
         :is-open="isOpen"
         @close="$emit('close')"
     >
@@ -96,7 +96,7 @@
                 </p>
             </div>
         </div>
-    </BaseModal>
+    </base-modal>
 </template>
 
 <script setup lang="ts">

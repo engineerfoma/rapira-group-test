@@ -6,6 +6,6 @@ export const pathKeys = {
     },
 
     blog() {
-        return pathKeys.root.concat('blog/');
+        return pathKeys.root.concat('blog');
     },
 } as const;

@@ -4,7 +4,7 @@
         :search-query="searchQuery"
         :is-filters-open="isFiltersOpen"
         @update:filters="updateFilters"
-        @update:search-query="searchQuery = $event"
+        @update:search-query="updateSearchQuery"
         @update:is-filters-open="isFiltersOpen = $event"
         @clear-all="clearAllFilters"
     />
@@ -23,11 +23,11 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch, computed, nextTick  } from 'vue';
 import { BlogFilters, BlogCardList, BlogCardModal } from '@/components';
 import type { BlogFilter, BlogPost, Comment } from '@/types/blog';
 import { INIT_BLOG_ITEM } from '@/constants';
-import { useBlogPosts } from '@/composables/useBlogPosts';
+import { useBlogPosts, useUrlParams } from '@/composables';
 
 const filters = ref<BlogFilter[]>([
     { id: 'design', label: 'Дизайн', isSelected: false },
@@ -45,6 +45,43 @@ const searchQuery = ref('');
 const isFiltersOpen = ref(false);
 
 const { loading: postLoading, error: postError, posts, fetchPosts } = useBlogPosts();
+const { getUrlParams, setUrlParams, syncWithUrl } = useUrlParams();
+
+const selectedCategoryTitle = computed(() => {
+    return filters.value
+        .filter(filter => filter.isSelected)
+        .map(filter => filter.label);
+});
+
+onMounted(async() => {
+    const urlParams = getUrlParams();
+
+    if (urlParams.search) {
+        searchQuery.value = urlParams.search;
+    }
+
+    if (urlParams.categories.length > 0) {
+        isFiltersOpen.value = true;
+
+        filters.value = filters.value.map(filter => ({
+            ...filter,
+            isSelected: urlParams.categories.includes(filter.label)
+        }));
+    }
+
+    fetchPosts(urlParams.search, urlParams.categories);
+    await nextTick();
+});
+
+watch([searchQuery, selectedCategoryTitle], ([newSearch, newCategories]) => {
+
+    syncWithUrl({
+        search: newSearch,
+        categories: newCategories
+    });
+
+    fetchPosts(newSearch, newCategories);
+}, { deep: true });
 
 const openPostModal = (post: BlogPost) => {
     isOpen.value = true;
@@ -59,10 +96,16 @@ const updateFilters = (newFilters: BlogFilter[]) => {
     filters.value = newFilters;
 };
 
+const updateSearchQuery = (query: string) => {
+    searchQuery.value = query;
+};
+
 const clearAllFilters = () => {
     filters.value = filters.value.map(f => ({ ...f, isSelected: false }));
     searchQuery.value = '';
-    isFiltersOpen.value = false;
+    setUrlParams({ search: '', categories: [] });
+
+    fetchPosts();
 };
 
 const handleAddComment = (payload: {postId: string, comment: Omit<Comment, 'id'>}) => {
@@ -74,8 +117,4 @@ const handleAddComment = (payload: {postId: string, comment: Omit<Comment, 'id'>
         selectedPost.value.comments.push(newComment);
     }
 };
-
-onMounted(() => {
-    fetchPosts();
-});
 </script>

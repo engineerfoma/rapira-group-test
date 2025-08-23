@@ -2,7 +2,12 @@
     <section
         :class="['bg-white', $style.filters]"
     >
-        <div :class="['max-w-[1210px] mx-auto flex flex-col md:flex-row md:items-center md:justify-between md:gap-4', $style.container]">
+        <div
+            :class="[
+                'max-w-[1210px] mx-auto flex flex-col md:flex-row md:items-center md:justify-between md:gap-4',
+                $style.container
+            ]"
+        >
             <div class="order-1 flex justify-between items-center md:contents">
                 <h2 class="font-gilroy md:order-1 mr-[35px]">
                     {{ $t('blog.title') }}
@@ -28,7 +33,7 @@
         </div>
         <div
             v-if="isFiltersOpen"
-            class="md:order-4"
+            class="md:order-4 max-w-[1210px] mx-auto"
         >
             <div class="w-full h-px bg-gray-100" />
             <div class="flex flex-wrap gap-2 py-3 md:py-5">
@@ -52,7 +57,20 @@ import {
     SearchInput,
 } from '@/shared/ui/';
 import FilterChip from './FilterChip.vue';
-import type { BlogFiltersEmits, BlogFiltersProps } from '@/types/blog';
+import type { BlogFilter } from '@/types/blog';
+
+export interface BlogFiltersEmits {
+  (e: 'update:filters', filters: BlogFilter[]): void;
+  (e: 'update:searchQuery', query: string): void;
+  (e: 'update:isFiltersOpen', isOpen: boolean): void;
+  (e: 'clearAll'): void;
+}
+
+export interface BlogFiltersProps {
+  filters: BlogFilter[];
+  searchQuery: string;
+  isFiltersOpen: boolean;
+}
 
 const props = defineProps<BlogFiltersProps>();
 defineEmits<BlogFiltersEmits>();

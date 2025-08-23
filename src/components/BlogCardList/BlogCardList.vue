@@ -1,5 +1,6 @@
 <template>
     <base-loading v-if="loading" />
+    <not-found v-else-if="!loading && !posts.length" />
     <div
         v-else
         :class="gridClasses"
@@ -17,7 +18,7 @@
 import { computed } from 'vue';
 import BlogCardItem from './BlogCardItem.vue';
 import type { BlogPost } from '@/types/blog';
-import { BaseLoading } from '@/shared/ui';
+import { BaseLoading, NotFound } from '@/shared/ui';
 
 defineProps<{
     posts: BlogPost[];

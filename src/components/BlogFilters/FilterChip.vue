@@ -30,7 +30,7 @@ defineEmits<{
 }>();
 
 const chipClasses = computed(() => ({
-    'bg-[var(--primary-light)] text-[#2884EF]': !props.isSelected,
+    'bg-[var(--primary-light)] text-[--primary-blue-color]': !props.isSelected,
     'bg-[var(--accent-blue-color)] text-white': props.isSelected,
     'py-1.5 px-3.5 rounded-full md:py-2': true,
 }));
