@@ -44,7 +44,14 @@ const selectedPost = ref<BlogPost>(INIT_BLOG_ITEM);
 const searchQuery = ref('');
 const isFiltersOpen = ref(false);
 
-const { loading: postLoading, error: postError, posts, fetchPosts } = useBlogPosts();
+const {
+    loading: postLoading,
+    error: postError,
+    posts,
+    fetchPosts,
+    addComment
+} = useBlogPosts();
+
 const { getUrlParams, setUrlParams, syncWithUrl } = useUrlParams();
 
 const selectedCategoryTitle = computed(() => {
@@ -74,7 +81,6 @@ onMounted(async() => {
 });
 
 watch([searchQuery, selectedCategoryTitle], ([newSearch, newCategories]) => {
-
     syncWithUrl({
         search: newSearch,
         categories: newCategories
@@ -83,9 +89,9 @@ watch([searchQuery, selectedCategoryTitle], ([newSearch, newCategories]) => {
     fetchPosts(newSearch, newCategories);
 }, { deep: true });
 
-const openPostModal = (post: BlogPost) => {
+const openPostModal = async(post: BlogPost) => {
     isOpen.value = true;
-    selectedPost.value = post;
+    selectedPost.value = { ...post };
 };
 
 const closeModal = () => {
@@ -104,17 +110,20 @@ const clearAllFilters = () => {
     filters.value = filters.value.map(f => ({ ...f, isSelected: false }));
     searchQuery.value = '';
     setUrlParams({ search: '', categories: [] });
-
-    fetchPosts();
 };
 
-const handleAddComment = (payload: {postId: string, comment: Omit<Comment, 'id'>}) => {
-    if (selectedPost.value) {
-        const newComment = {
-            ...payload.comment,
-            id: payload.postId
-        };
-        selectedPost.value.comments.push(newComment);
+const handleAddComment = async(payload: {postId: string, comment: Omit<Comment, 'id'>}) => {
+    try {
+        const newComment = await addComment(payload.postId, payload.comment);
+
+        if (newComment && selectedPost.value) {
+            const postIndex = posts.value.findIndex(p => p.id === payload.postId);
+            if (postIndex !== -1) {
+                posts.value[postIndex].comments.push(newComment);
+            }
+        }
+    } catch (error) {
+        console.error('Failed to add comment:', error);
     }
 };
 </script>

@@ -23,3 +23,20 @@ export interface Comment {
   text: string;
   date: string;
 }
+
+export interface ApiResponse<T> {
+  data: T;
+  total: number;
+  error?: string;
+}
+
+export interface PaginationParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+  categoryIds?: string[];
+}
+
+export interface ApiError {
+  error: string;
+}
