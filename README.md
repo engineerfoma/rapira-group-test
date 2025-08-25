@@ -113,7 +113,7 @@ src/
 │   │   ├── BaseModal.vue          # Модалка
 │   │   ├── ChipItem.vue           # Категория
 │   │   ├── ClearButton.vue        # Кнопка очистки
-│   │   ├── FilterButton.vue       # Кнопка приминения фильтров
+│   │   ├── FilterButton.vue       # Кнопка применения фильтров
 │   │   ├── HeaderContent.vue      # Шапка сайта
 │   │   ├── MetaInfo.vue           # Свойства карточки
 │   │   ├── NotFound.vue           # Заглушка поиска
